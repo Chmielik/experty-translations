@@ -1,0 +1,33 @@
+{
+  "name": "experty-translations",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "nodemonConfig": {
+    "ignore": [
+      "src/*"
+    ]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Experty/experty-translations.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Experty/experty-translations/issues"
+  },
+  "homepage": "https://github.com/Experty/experty-translations",
+  "devDependencies": {
+    "nodemon": "1.18.9"
+  },
+  "dependencies": {
+    "dotenv": "6.2.0",
+    "mkdirp": "0.5.1"
+  }
+}
