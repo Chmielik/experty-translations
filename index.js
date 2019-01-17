@@ -47,7 +47,7 @@ https.get(`https://spreadsheets.google.com/feeds/list/${SPREADSHEET}/od6/public/
       const obj = {}
       feed.map(row => {
         // throw error when missing translations
-        if (row['gsx$key']['$t'] && !row[`gsx$${lang}`]['$t']) throw new Error(`Missing "${row['gsx$key']['$t']}" key translation for ${lang} language`)
+        // if (row['gsx$key']['$t'] && !row[`gsx$${lang}`]['$t']) throw new Error(`Missing "${row['gsx$key']['$t']}" key translation for ${lang} language`)
         
         obj[row['gsx$key']['$t']] = row[`gsx$${lang}`]['$t']
         return obj
