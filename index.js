@@ -1,8 +1,8 @@
 const https = require('https');
 const fs = require('fs')
 const mkdirp = require('mkdirp');
-require('dotenv').config()
-const { SPREADSHEET } = require('./config')
+// require('dotenv').config()
+// const { SPREADSHEET } = require('./config')
 
 const en = 'en';
 const pl = 'pl';
@@ -32,7 +32,7 @@ languages.forEach(lang => {
 })
 
 
-https.get(`https://spreadsheets.google.com/feeds/list/${SPREADSHEET}/od6/public/values?alt=json`, (resp) => {
+https.get(`https://spreadsheets.google.com/feeds/list/${process.env.SPREADSHEET}/od6/public/values?alt=json`, (resp) => {
   let data = '';
 
   // A chunk of data has been recieved.
