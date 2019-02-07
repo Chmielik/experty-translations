@@ -19,8 +19,11 @@ languages.forEach(lang => {
 
   // Remove old translation files
   try {
-    fs.accessSync(path)
-    fs.unlink(path)
+    if (fs.existsSync(path)) {
+      fs.unlink(path, (err) => {
+        throw err
+      })
+    }
   } catch (e) {
     throw e
   }
@@ -40,7 +43,7 @@ https.get(`https://spreadsheets.google.com/feeds/list/${SPREADSHEET}/od6/public/
     languages.forEach(lang => {
       const obj = {}
       feed.map(row => {
-        if (row['gsx$key']['$t'] && !row[`gsx$${lang}`]['$t']) throw new Error(`Missing "${row['gsx$key']['$t']}" key translation for ${lang} language`)
+        // if (row['gsx$key']['$t'] && !row[`gsx$${lang}`]['$t']) throw new Error(`Missing "${row['gsx$key']['$t']}" key translation for ${lang} language`)
 
         obj[row['gsx$key']['$t']] = row[`gsx$${lang}`]['$t']
         return JSON.parse(JSON.stringify(obj))
