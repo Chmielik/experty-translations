@@ -42,7 +42,8 @@ https.get(`https://spreadsheets.google.com/feeds/list/${SPREADSHEET}/od6/public/
 
   // The whole response has been received. Print out the result.
   resp.on('end', () => {
-    const feed = JSON.parse(data).feed.entry
+    // const feed = JSON.parse(data).feed.entry
+    const feed = JSON.parse(JSON.stringify(data)).feed.entry
     languages.forEach(lang => {
       const obj = {}
       feed.map(row => {
