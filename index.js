@@ -20,9 +20,7 @@ languages.forEach(lang => {
   // Remove old translation files
   try {
     if (fs.existsSync(path)) {
-      fs.unlink(path, (err) => {
-        throw err
-      })
+      fs.unlinkSync(path)
     }
   } catch (e) {
     throw e
