@@ -21,7 +21,7 @@ languages.forEach(lang => {
   // Check if './src/static/locales/${lang} dir exists
   // Create dir if doesn't exist
   if (!fs.existsSync(dir)) {
-    mkdirp(`./src/static/locales/${lang}`)
+    mkdirp(dir)
   }
 
   // Remove old translation files
@@ -46,6 +46,8 @@ https.get(`https://spreadsheets.google.com/feeds/list/${SPREADSHEET}/od6/public/
   resp.on('end', () => {
     const feed = JSON.parse(data).feed.entry
     languages.forEach(lang => {
+      let filePath = process.argv[2] === 'oldI18nSupport' ? `./locales/${lang}.json` : `./src/static/locales/${lang}/common.json`
+
       const obj = {}
       feed.map(row => {
         // if (row['gsx$key']['$t'] && !row[`gsx$${lang}`]['$t']) throw new Error(`Missing "${row['gsx$key']['$t']}" key translation for ${lang} language`)
@@ -54,7 +56,7 @@ https.get(`https://spreadsheets.google.com/feeds/list/${SPREADSHEET}/od6/public/
         return JSON.parse(JSON.stringify(obj))
       })
       // convert obj to json, and append to file
-      fs.appendFile(`./src/static/locales/${lang}/common.json`, JSON.stringify(obj, null, 2), (err) => {
+      fs.appendFile(filePath, JSON.stringify(obj, null, 2), (err) => {
         if (err) throw err
       })
     })
