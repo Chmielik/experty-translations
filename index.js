@@ -8,8 +8,15 @@ const pl = 'pl'
 const languages = [en, pl]
 
 languages.forEach(lang => {
-  const dir = `./src/static/locales/${lang}`
-  const path = process.cwd() + `/src/static/locales/${lang}/common.json`
+  let dir
+  let path
+  if (process.argv[2] === 'oldI18nSupport') {
+    dir = `./locales`
+    path = process.cwd() + `/locales/${lang}.json`
+  } else {
+    dir = `./src/static/locales/${lang}`
+    path = process.cwd() + `/src/static/locales/${lang}/common.json`
+  }
 
   // Check if './src/static/locales/${lang} dir exists
   // Create dir if doesn't exist
