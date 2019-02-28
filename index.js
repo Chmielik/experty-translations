@@ -10,10 +10,10 @@ const languages = [en, pl]
 languages.forEach(lang => {
   let dir
   let path
-  if (process.argv[2] === 'oldI18nSupport=true') {
+  if (process.argv[2] === 'oldI18nSupport') {
     dir = `./locales`
     path = process.cwd() + `/locales/${lang}.json`
-    } else {
+  } else {
     dir = `./src/static/locales/${lang}`
     path = process.cwd() + `/src/static/locales/${lang}/common.json`
   }
