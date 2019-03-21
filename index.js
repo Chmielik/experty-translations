@@ -50,7 +50,6 @@ const translate = () => {
         // The whole response has been received. Print out the result.
         resp.on('end', () => {
           const feed = JSON.parse(data).feed.entry
-          // console.log(feed)
           languages.forEach(lang => {
             let filePath =
               process.argv[2] === 'oldI18nSupport'
