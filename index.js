@@ -41,7 +41,7 @@ const translate = () => {
       `https://spreadsheets.google.com/feeds/list/${SPREADSHEET}/od6/public/values?alt=json`,
       resp => {
         let data = ''
-        var decoder = new StringDecoder('utf8')
+        const decoder = new StringDecoder('utf8')
 
         // A chunk of data has been recieved.
         resp.on('data', chunk => {
