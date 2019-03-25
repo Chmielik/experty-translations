@@ -2,6 +2,7 @@ const https = require('https')
 const fs = require('fs')
 const mkdirp = require('mkdirp')
 const { SPREADSHEET } = require('./config')
+const StringDecoder = require('string_decoder').StringDecoder
 
 const en = 'en'
 const pl = 'pl'
@@ -35,36 +36,44 @@ const translate = () => {
     }
   })
 
-  https.get(`https://spreadsheets.google.com/feeds/list/${SPREADSHEET}/od6/public/values?alt=json`, (resp) => {
-    let data = ''
+  https
+    .get(
+      `https://spreadsheets.google.com/feeds/list/${SPREADSHEET}/od6/public/values?alt=json`,
+      resp => {
+        let data = ''
+        const decoder = new StringDecoder('utf8')
 
-    // A chunk of data has been recieved.
-    resp.on('data', (chunk) => {
-      data += chunk
-    })
-
-    // The whole response has been received. Print out the result.
-    resp.on('end', () => {
-      const feed = JSON.parse(data).feed.entry
-      languages.forEach(lang => {
-        let filePath = process.argv[2] === 'oldI18nSupport' ? `./locales/${lang}.json` : `./src/static/locales/${lang}/common.json`
-
-        const obj = {}
-        feed.map(row => {
-          // if (row['gsx$key']['$t'] && !row[`gsx$${lang}`]['$t']) throw new Error(`Missing "${row['gsx$key']['$t']}" key translation for ${lang} language`)
-
-          obj[row['gsx$key']['$t']] = row[`gsx$${lang}`]['$t']
-          return JSON.parse(JSON.stringify(obj))
+        // A chunk of data has been recieved.
+        resp.on('data', chunk => {
+          data += decoder.write(chunk)
         })
-        // convert obj to json, and append to file
-        fs.appendFile(filePath, JSON.stringify(obj, null, 2), (err) => {
-          if (err) throw err
+        // The whole response has been received. Print out the result.
+        resp.on('end', () => {
+          const feed = JSON.parse(data).feed.entry
+          languages.forEach(lang => {
+            let filePath =
+              process.argv[2] === 'oldI18nSupport'
+                ? `./locales/${lang}.json`
+                : `./src/static/locales/${lang}/common.json`
+
+            const obj = {}
+            feed.map(row => {
+              // if (row['gsx$key']['$t'] && !row[`gsx$${lang}`]['$t']) throw new Error(`Missing "${row['gsx$key']['$t']}" key translation for ${lang} language`)
+
+              obj[row['gsx$key']['$t']] = row[`gsx$${lang}`]['$t']
+              return JSON.parse(JSON.stringify(obj))
+            })
+            // convert obj to json, and append to file
+            fs.appendFile(filePath, JSON.stringify(obj, null, 2), err => {
+              if (err) throw err
+            })
+          })
         })
-      })
+      }
+    )
+    .on('error', err => {
+      throw err
     })
-  }).on('error', (err) => {
-    throw err
-  })
 }
 
 module.exports = {
