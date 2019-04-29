@@ -2,7 +2,7 @@
 
 Usage
 
-const expertyTranslations = require('experty-translations')
-const { spreadsheet } = require('./vars')
+```const expertyTranslations = require('experty-translations')
+const { spreadsheet } = require('./vars')```
 
-expertyTranslations.translate(spreadsheet)
+`expertyTranslations.translate(spreadsheet)`
