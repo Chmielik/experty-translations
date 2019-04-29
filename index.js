@@ -1,14 +1,16 @@
 const https = require('https')
 const fs = require('fs')
 const mkdirp = require('mkdirp')
-const { SPREADSHEET } = require('./config')
 const StringDecoder = require('string_decoder').StringDecoder
 
 const en = 'en'
 const pl = 'pl'
 const languages = [en, pl]
 
-const translate = () => {
+const translate = (spreadsheetId) => {
+  if (!spreadsheetId) {
+    throw new Error('No spreadsheet id provided')
+  }
   languages.forEach(lang => {
     let dir
     let path
@@ -38,7 +40,7 @@ const translate = () => {
 
   https
     .get(
-      `https://spreadsheets.google.com/feeds/list/${SPREADSHEET}/od6/public/values?alt=json`,
+      `https://spreadsheets.google.com/feeds/list/${spreadsheetId}/od6/public/values?alt=json`,
       resp => {
         let data = ''
         const decoder = new StringDecoder('utf8')
